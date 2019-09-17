@@ -1,0 +1,901 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Stylesheet documentation for: qareport-quality-guidance.xsl</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        
+        var docBoxes= new Array('dS_qareport-quality-guidance.xsl');
+
+        var sourceBoxes= new Array('src_M_S_qareport-quality-guidance.xsl', 
+				'src_O_S_qareport-quality-guidance.xsl');
+
+        var supersedesBoxes= new Array('sps_M_S_qareport-quality-guidance.xsl');
+
+        
+        var referencesBoxes= new Array('refs_M_S_qareport-quality-guidance.xsl');
+
+        
+        var includesBoxes= new Array('ic_qareport-quality-guidance.xsl');
+
+        
+        var includedFromBoxes= new Array('icF_qareport-quality-guidance.xsl');
+
+        var button_prefix = 'bt_';
+        
+        /**
+        * Get all DIV elements with a specified class name.
+        *
+        * @param className The class name. 
+        */
+        function getElementsByClassName(className) {
+            var results = [];
+    
+             if (document.getElementsByClassName == undefined) {
+                var allElements = document.getElementsByTagName("div");
+                var element;
+                for (var i = 0; i < allElements.length; i++) {
+                    var element = allElements[i];
+                	var elementClass = element.className;
+                	if (elementClass == className) { 
+                		results.push(element);
+                	}
+                }
+             } else {
+                results = document.getElementsByClassName(className);
+             }
+    
+            return results;
+        }
+            
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+
+       /**
+        * Switch between the compact list representation and the clasic list representation.
+        */
+       function switchMode(checkBox) {
+            if (checkBox == null) {
+                // Checkbox not found
+            } else if (checkBox.checked == 1) {
+                // Compact mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "inline";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "inline";
+                    }
+                }
+            } else {
+                // Expanded mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "block";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "none";
+                    }
+                }
+            }
+        }
+
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updPT(message) {
+            top.document.title = "Stylesheet documentation for: " + message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id){
+         var selectIds = new Array('toc_group_by_location', 'toc_group_by_component_type', 'toc_group_by_namespace', 'toc_group_by_mode');
+            // Make all the tabs invisible.
+            for (i = 0; i < 4; i++){
+               var tab = getElementObject(selectIds[i]);
+               tab.style.display = 'none';
+            }
+            var selTab = getElementObject(id);
+            selTab.style.display = 'block';            
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cTL"></td>
+               <td class="rt_lT"></td>
+               <td class="rt_cTR"></td>
+            </tr>
+            <tr>
+               <td class="rt_lL"></td>
+               <td class="rt_cnt">
+                  <h3>Mode:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchMode(this);" class="control" /></span><span class="globalControlName">Compact lists</span></td>
+                     </tr>
+                  </table>
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, docBoxes);" class="control" /></span><span class="globalControlName">Documentation
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, referencesBoxes);" class="control" /></span><span class="globalControlName">References </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, supersedesBoxes);" class="control" /></span><span class="globalControlName">Supersedes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, includesBoxes);" class="control" /></span><span class="globalControlName">Included modules
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, includedFromBoxes);" class="control" /></span><span class="globalControlName">Included from
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lR"></td>
+            </tr>
+            <tr>
+               <td class="rt_cBL"></td>
+               <td class="rt_lB"></td>
+               <td class="rt_cBR"></td>
+            </tr>
+         </table>
+      </div><a id="qareport-quality-guidance.xsl"></a><div class="cmpT">Stylesheet
+         <span class="qname">qareport-quality-guidance.xsl</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_qareport-quality-guidance.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('dS_qareport-quality-guidance.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_qareport-quality-guidance.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3><pre> This file is part of the org.dita-community.qa project hosted on Sourceforge.net.  </pre><pre> (c) Copyright Ditanauts All Rights Reserved. </pre></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Included modules</div>
+                           <div class="flR"><input id="bt_ic_qareport-quality-guidance.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('ic_qareport-quality-guidance.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="ic_qareport-quality-guidance.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">qainit.xsl</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">qavariables.xsl</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Included from</div>
+                           <div class="flR"><input id="bt_icF_qareport-quality-guidance.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('icF_qareport-quality-guidance.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="icF_qareport-quality-guidance.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation0.html#qacreate-oxygen-documentation.xsl" target="_self" title="No namespace" onclick="updPT('qacreate-oxygen-documentation.xsl')">qacreate-oxygen-documentation.xsl</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Stylesheet version</td>
+                        <td>2.0</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="M_S_qareport-quality-guidance.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateMatch">/</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>/</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Mode</td>
+                        <td>#default</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_M_S_qareport-quality-guidance.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_M_S_qareport-quality-guidance.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_M_S_qareport-quality-guidance.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_replacetmregS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>replacetmreg (</span><span class="fParams">input</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Supersedes</div>
+                           <div class="flR"><input id="bt_sps_M_S_qareport-quality-guidance.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('sps_M_S_qareport-quality-guidance.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="sps_M_S_qareport-quality-guidance.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation7.html#M_S_qaflagged-content-table.xsl" target="_self" title="No namespace" onclick="updPT('qaflagged-content-table.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>2</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_M_S_qareport-quality-guidance.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_M_S_qareport-quality-guidance.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_M_S_qareport-quality-guidance.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"/"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Read in the rest of the document as a global variable from which we will query data into its respective containers. --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"thisDoc"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:copy-of</span><span class="tAN"> select=</span><span class="tAV">"*"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Collect document-level data  --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"docTitle01"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg($thisDoc//data[@name = 'docTitle'])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"docTitle"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg($docTitle01)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"bookmaplibrary01"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg($thisDoc//data[@name = 'bookmaplibrary'])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"bookmaplibrary"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg($bookmaplibrary01)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"reportDateTime"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'reportDateTime']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"reportGeneratedBy"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'reportGeneratedBy']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"fileRoot"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'fileRoot']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"bookmapbooktitlealtone"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'bookmapbooktitlealtone']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"bookmapbooktitlealttwo"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'bookmapbooktitlealttwo']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"bookmapbooktitlealtthree"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'bookmapbooktitlealtthree']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"linkTotal"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count($thisDoc//data[contains(@outputclass, 'link')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--	&lt;xsl:variable name="length"&gt;
+			&lt;xsl:value-of select="$thisDoc//data[@name = 'length']"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- violation info--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"totalError"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'totalError']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:variable name="totalWarning"&gt;
+			&lt;xsl:value-of select="$thisDoc//data[@name = 'totalWarning']"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-923: js186017: 2017.03.20 - removed all but error --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"totalViolations"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$totalError"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--					then (:count(//data[contains(@importance, 'error')][contains(@outputclass, 'lang passive')]):)--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"passiveVoice"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"      if (not($thisDoc//data[@name = 'hasPassive'] = 'false'))      then        count($thisDoc//data[contains(@importance, 'error')][contains(@outputclass, 'lang passive')])      else       '0'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Collect topic-level info --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:variable name="topicsTotal"&gt;
+			&lt;xsl:value-of select="$thisDoc//data[@name = 'topicsTotal']"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"topicsConcept"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'topicsConcept']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"topicsTask"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'topicsTask']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"topicsReference"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'topicsReference']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"imagesTotal"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'imagesTotal']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--	&lt;xsl:variable name="linkTotal"&gt;
+			&lt;xsl:value-of select="count($thisDoc//data[contains(@outputclass, 'link')])"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--	&lt;xsl:variable name="totalComplexity"&gt;
+			&lt;xsl:value-of select="sum(//data[contains(@outputclass, 'step-count')])"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- elementcounts --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:variable name="distinctElements"&gt;
+			&lt;xsl:value-of select="$thisDoc//data[@name = 'distinctElements']"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:variable name="totalElements"&gt;
+			&lt;xsl:value-of select="$thisDoc//data[@name = 'totalElements']"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"totalWords"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//data[@name = 'totalWords']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- violation ratios--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:variable name="violationRatioW"&gt;
+			&lt;xsl:value-of select="round($totalWords div $totalViolations)"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:variable name="violationRatioP"&gt;
+			&lt;xsl:value-of
+				select="format-number(round($totalWords div 250) div $totalViolations, '0.00')"/&gt;
+		&lt;/xsl:variable&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- start HTML markup --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:text</span><span class="tAN"> disable-output-escaping=</span><span class="tAV">"yes"</span><span class="tXSLEl">&gt;</span><span class="tT">&lt;!DOCTYPE html&gt;
+</span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;html</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;head</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;link</span><span class="tAN"> rel=</span><span class="tAV">"stylesheet"</span><span class="tAN"> href=</span><span class="tAV">"http://sdw00088.labs.teradata.com:8080/style/qa_report.css"</span><span class="tAN"> type=</span><span class="tAV">"text/css"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;meta</span><span class="tAN"> content=</span><span class="tAV">"text/html; charset=utf-8"</span><span class="tAN"> http-equiv=</span><span class="tAV">"Content-Type"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;title</span><span class="tEl">&gt;</span><span class="tT">Teradata Quality Guidance Report</span><span class="tEl">&lt;/title&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/head&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;body</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;div</span><span class="tAN"> class=</span><span class="tAV">"jumbotron"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;h1</span><span class="tEl">&gt;</span><span class="tT">Teradata Quality Guidance Report for book</span><span class="tEl">&lt;br</span><span class="tEl">/&gt;</span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if ($bookmaplibrary = 'n/a')        then normalize-space(concat($docTitle, ' ', $bookmapbooktitlealtone, ' ', $bookmapbooktitlealttwo, ' ', $bookmapbooktitlealtthree))       else normalize-space(concat($bookmaplibrary, ' ', $docTitle, ' ', $bookmapbooktitlealtone, ' ', $bookmapbooktitlealttwo, ' ', $bookmapbooktitlealtthree))"</span><span class="tXSLEl">/&gt;</span><span class="tEl">&lt;/h1&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">Generated </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$reportDateTime"</span><span class="tXSLEl">/&gt;</span><span class="tT"> by </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$reportGeneratedBy"</span><span class="tXSLEl">/&gt;</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/div&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">Use this information to improve the language and the quality of
+					the DITA in the deliverable.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!--				&lt;p&gt;Click &lt;a&gt;&lt;xsl:attribute name="href"&gt;&lt;xsl:value-of
+								select="$qa-report-with-charts-uri"/&gt;&lt;/xsl:attribute&gt;&lt;xsl:value-of
+							select="concat($bookmapid, '-qa-report-with-charts.html')"/&gt;&lt;/a&gt; to open
+					an abbreviated QA report with Pie Charts&lt;/p&gt;--&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;h3</span><span class="tEl">&gt;</span><span class="tT">Reports for Flagged Content</span><span class="tEl">&lt;/h3&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">Click the attached </span><span class="tEl">&lt;tt</span><span class="tEl">&gt;</span><span class="tT">qa-flagged-content-table.html</span><span class="tEl">&lt;/tt&gt;</span><span class="tT">, clear the option </span><span class="tEl">&lt;b</span><span class="tEl">&gt;</span><span class="tT">Always warn before previewing this type of file</span><span class="tEl">&lt;/b&gt;</span><span class="tT">, and click </span><span class="tEl">&lt;b</span><span class="tEl">&gt;</span><span class="tT">Preview file</span><span class="tEl">&lt;/b&gt;</span><span class="tT"> to view report as a web page. </span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">Double-click the attached </span><span class="tEl">&lt;tt</span><span class="tEl">&gt;</span><span class="tT">qa-flagged-content.csv</span><span class="tEl">&lt;/tt&gt;</span><span class="tT"> to open a spreadsheet version of the report in Excel. 
+				</span><span class="tEl">&lt;ol</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;li</span><span class="tEl">&gt;</span><span class="tT">At the </span><span class="tEl">&lt;b</span><span class="tEl">&gt;</span><span class="tT">Microsoft Outlook Security Notice</span><span class="tEl">&lt;/b&gt;</span><span class="tT"> prompt, click </span><span class="tEl">&lt;b</span><span class="tEl">&gt;</span><span class="tT">Yes</span><span class="tEl">&lt;/b&gt;</span><span class="tT">,
+						and </span><span class="tEl">&lt;b</span><span class="tEl">&gt;</span><span class="tT">Open</span><span class="tEl">&lt;/b&gt;</span><span class="tT"> on the </span><span class="tEl">&lt;b</span><span class="tEl">&gt;</span><span class="tT">Opening Mail Attachment prompt</span><span class="tEl">&lt;/b&gt;</span><span class="tT">.</span><span class="tEl">&lt;/li&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;li</span><span class="tEl">&gt;</span><span class="tT">In Excel, click the upper left corner to select the entire
+						spreadsheet.</span><span class="tEl">&lt;/li&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;li</span><span class="tEl">&gt;</span><span class="tT">Double-click the divider between column A (Topic Title) and column B
+						(Ixiasoft ID) to auto-adjust column width to content.</span><span class="tEl">&lt;/li&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;li</span><span class="tEl">&gt;</span><span class="tT">Save the file in .xslx format.</span><span class="tEl">&lt;/li&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;li</span><span class="tEl">&gt;</span><span class="tT">Sort data in columns.</span><span class="tEl">&lt;/li&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/ol&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!--				&lt;h3&gt;Solves Problems, Answers Questions&lt;/h3&gt;
+				&lt;p&gt;Focus on how to use the products, not how they work. Try to use more task and
+					reference topics and fewer concept topics. &lt;br/&gt;The deliverable determines the
+					kind of content. For example, database content has more reference topics, but a
+					hardware installation guide has more tasks.&lt;/p&gt;--&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;h4</span><span class="tEl">&gt;</span><span class="tT">Total concepts, tasks, references</span><span class="tEl">&lt;/h4&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"concat($topicsConcept, ' ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tT">concepts, </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"concat($topicsTask, ' ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tT">tasks, </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"concat($topicsReference, ' ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tT">references</span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;h4</span><span class="tEl">&gt;</span><span class="tT">Active</span><span class="tEl">&lt;/h4&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">Use the active voice when possible. </span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"not($passiveVoice = '0')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">Passive voice represents </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"format-number($passiveVoice div $totalViolations * 100, '00')"</span><span class="tXSLEl">/&gt;</span><span class="tEl">&lt;/span&gt;</span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tT"> percent of the total flagged
+							content</span><span class="tEl">&lt;/span&gt;</span><span class="tT">.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;h4</span><span class="tEl">&gt;</span><span class="tT">Minimalism</span><span class="tEl">&lt;/h4&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">Avoid words that do not add value. For example, "junk words" do not add
+					value.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">The following junk words appear in the content.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;table</span><span class="tAN"> border=</span><span class="tAV">"1"</span><span class="tAN"> cellpadding=</span><span class="tAV">"3"</span><span class="tAN"> cellspacing=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;tr</span><span class="tAN"> class=</span><span class="tAV">"highlight"</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT">Junk Word</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT">Occurrences</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:for-each-group</span><span class="tAN"> group-by=</span><span class="tAV">"@value"</span><span class="tAN"> select=</span><span class="tAV">"//data[@name = 'word']"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:sort</span><span class="tAN"> select=</span><span class="tAV">"sum(current-group())"</span><span class="tAN"> order=</span><span class="tAV">"descending"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"position() &lt; 25"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tI">
+                      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"current-grouping-key()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+                      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"sum(current-group())"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:for-each-group&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/table&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;h4</span><span class="tEl">&gt;</span><span class="tT">Skimmable</span><span class="tEl">&lt;/h4&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT">The user should be able to skim our content to find exactly what they are looking
+					for. While some topics will have to be longer, avoid verbose text.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;table</span><span class="tAN"> border=</span><span class="tAV">"1"</span><span class="tAN"> cellpadding=</span><span class="tAV">"3"</span><span class="tAN"> cellspacing=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;tr</span><span class="tAN"> class=</span><span class="tAV">"highlight"</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT">Topic Title</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT">Word Count</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tAN"> colspan=</span><span class="tAV">"2"</span><span class="tEl">&gt;</span><span class="tT">Top Ten Topics with the Highest Word Count</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"/topic/body/section[contains(@outputclass, 'topicReport')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:sort</span><span class="tAN"> select=</span><span class="tAV">"data[contains(@name, 'wordCount')]"</span><span class="tAN"> order=</span><span class="tAV">"descending"</span><span class="tAN"> data-type=</span><span class="tAV">"number"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"(position() &lt; 11) and (position() &gt; 0)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tI">
+                      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"data[@name = 'topicTitle']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
+                    </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT"> </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+                      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"data[contains(@name, 'wordCount')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tAN"> colspan=</span><span class="tAV">"2"</span><span class="tEl">&gt;</span><span class="tT">Top Ten Topics with the Lowest Word Count</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"/topic/body/section[contains(@outputclass, 'topicReport')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:sort</span><span class="tAN"> select=</span><span class="tAV">"data[contains(@name, 'wordCount')]"</span><span class="tAN"> order=</span><span class="tAV">"ascending"</span><span class="tAN"> data-type=</span><span class="tAV">"number"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"(position() &lt; 11) and (position() &gt; 0)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tI">
+                      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"data[@name = 'topicTitle']"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
+                    </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT"> </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+                      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"data[contains(@name, 'wordCount')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                    </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+                  </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/table&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;h4</span><span class="tEl">&gt;</span><span class="tT">This Deliverable in Numbers</span><span class="tEl">&lt;/h4&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"format-number($totalWords, '###,###,###')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tT"> words, </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"concat($imagesTotal, ' ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tT">images, </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"value"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"concat($linkTotal, ' ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;span</span><span class="tAN"> class=</span><span class="tAV">"metric"</span><span class="tEl">&gt;</span><span class="tT">links</span><span class="tEl">&lt;/span&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!--				&lt;h4&gt;Referable content&lt;/h4&gt;
+				&lt;p&gt;A high percentage of referable content is only desirable when the reuse truly
+					benefits IE's content creation.&lt;/p&gt;
+				&lt;p&gt;&lt;b&gt;BIG TODO:&lt;/b&gt; calculate percentage&lt;/p&gt;--&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/body&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/html&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="O_S_qareport-quality-guidance.xsl"></a><div class="cmpT">Output
+         <span class="qname">(default)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Output properties</div>
+                           <div class="flR"><input id="bt_o_" type="image" src="img/btM.gif" value="-" onclick="switchState('o_');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="o_" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>method</th>
+                                       <th>encoding</th>
+                                       <th>indent</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>yes</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_O_S_qareport-quality-guidance.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_O_S_qareport-quality-guidance.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_O_S_qareport-quality-guidance.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:output</span><span class="tAN"> method=</span><span class="tAV">"html"</span><span class="tAN"> indent=</span><span class="tAV">"yes"</span><span class="tAN"> encoding=</span><span class="tAV">"UTF-8"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">Stylesheet documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Developer.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                    // The namespace is the selected option in the TOC combo.
+                    
+                    // The corresponding div is already visible conf. to its style attr.                     
+                    
+                            var selectToc = getElementObject('selectTOC');
+                            if(selectToc != null){
+                            // It can be null when having chunking, the combo of the TOC is in another frame.
+                            selectToc.selectedIndex = 0;
+                            }
+                        
+                    
+                    // Floats the toolbar.
+                    var globalControls = getElementObject("global_controls"); 
+                    
+                    if(globalControls != null){
+                    var browser=navigator.appName;
+                    var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+                    
+                    var IE6 = false;
+                    if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+                    IE6 = true;
+                    }
+                    
+                    //alert (IE6 + " |V| " + version);
+                    
+                    if(IE6){
+                    // On IE 6 the 'fixed' property is not supported. We must use javascript. 
+                    globalControls.style.position='absolute';                         
+                    // The global controls will do not exist in the TOC frame, when chunking.
+                    findAndFloat("global_controls", 225, 30);    
+                    } else {
+                    globalControls.style.position='fixed';                     	
+                    }
+                    
+                    globalControls.style.right='0';                       
+                    }
+                //--></script></body>
+</html>

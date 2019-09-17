@@ -1,0 +1,1559 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Stylesheet documentation for: _qa_checks.xsl</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        var usedByBoxes= new Array('uB_T_top-levelS_qachecks_qa_checks.xsl', 
+				'uB_T_termS_qachecks_qa_checks.xsl', 
+				'uB_T_langS_qachecks_qa_checks.xsl', 
+				'uB_T_tagS_qachecks_qa_checks.xsl', 
+				'uB_T_passiveVoiceS_qachecks_qa_checks.xsl', 
+				'uB_T_xrefsS_qachecks_qa_checks.xsl');
+
+        var docBoxes= new Array('dS_qachecks_qa_checks.xsl', 
+				'dS_T_passiveVoiceS_qachecks_qa_checks.xsl', 
+				'dS_O_S_qachecks_qa_checks.xsl');
+
+        var sourceBoxes= new Array('src_T_top-levelS_qachecks_qa_checks.xsl', 
+				'src_T_termS_qachecks_qa_checks.xsl', 
+				'src_T_langS_qachecks_qa_checks.xsl', 
+				'src_T_tagS_qachecks_qa_checks.xsl', 
+				'src_T_passiveVoiceS_qachecks_qa_checks.xsl', 
+				'src_T_xrefsS_qachecks_qa_checks.xsl', 
+				'src_O_S_qachecks_qa_checks.xsl');
+
+        
+        
+        var referencesBoxes= new Array('refs_T_top-levelS_qachecks_qa_checks.xsl', 
+				'refs_T_langS_qachecks_qa_checks.xsl', 
+				'refs_T_tagS_qachecks_qa_checks.xsl');
+
+        
+        
+        
+        var includedFromBoxes= new Array('icF_qachecks_qa_checks.xsl');
+
+        var button_prefix = 'bt_';
+        
+        /**
+        * Get all DIV elements with a specified class name.
+        *
+        * @param className The class name. 
+        */
+        function getElementsByClassName(className) {
+            var results = [];
+    
+             if (document.getElementsByClassName == undefined) {
+                var allElements = document.getElementsByTagName("div");
+                var element;
+                for (var i = 0; i < allElements.length; i++) {
+                    var element = allElements[i];
+                	var elementClass = element.className;
+                	if (elementClass == className) { 
+                		results.push(element);
+                	}
+                }
+             } else {
+                results = document.getElementsByClassName(className);
+             }
+    
+            return results;
+        }
+            
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+
+       /**
+        * Switch between the compact list representation and the clasic list representation.
+        */
+       function switchMode(checkBox) {
+            if (checkBox == null) {
+                // Checkbox not found
+            } else if (checkBox.checked == 1) {
+                // Compact mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "inline";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "inline";
+                    }
+                }
+            } else {
+                // Expanded mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "block";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "none";
+                    }
+                }
+            }
+        }
+
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updPT(message) {
+            top.document.title = "Stylesheet documentation for: " + message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id){
+         var selectIds = new Array('toc_group_by_location', 'toc_group_by_component_type', 'toc_group_by_namespace', 'toc_group_by_mode');
+            // Make all the tabs invisible.
+            for (i = 0; i < 4; i++){
+               var tab = getElementObject(selectIds[i]);
+               tab.style.display = 'none';
+            }
+            var selTab = getElementObject(id);
+            selTab.style.display = 'block';            
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cTL"></td>
+               <td class="rt_lT"></td>
+               <td class="rt_cTR"></td>
+            </tr>
+            <tr>
+               <td class="rt_lL"></td>
+               <td class="rt_cnt">
+                  <h3>Mode:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchMode(this);" class="control" /></span><span class="globalControlName">Compact lists</span></td>
+                     </tr>
+                  </table>
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, docBoxes);" class="control" /></span><span class="globalControlName">Documentation
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, referencesBoxes);" class="control" /></span><span class="globalControlName">References </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, includedFromBoxes);" class="control" /></span><span class="globalControlName">Included from
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lR"></td>
+            </tr>
+            <tr>
+               <td class="rt_cBL"></td>
+               <td class="rt_lB"></td>
+               <td class="rt_cBR"></td>
+            </tr>
+         </table>
+      </div><a id="qachecks_qa_checks.xsl"></a><div class="cmpT">Stylesheet
+         <span class="qname">_qa_checks.xsl</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('dS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_qachecks_qa_checks.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3><pre> This file is part of the org.dita-community.qa project hosted on 
+     Sourceforge.net.</pre><pre> (c) Copyright Ditanauts All Rights Reserved. 	xmlns:e="http://teradata.com/dita/blockElements"</pre></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Included from</div>
+                           <div class="flR"><input id="bt_icF_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('icF_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="icF_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation0.html#qacreate-oxygen-documentation.xsl" target="_self" title="No namespace" onclick="updPT('qacreate-oxygen-documentation.xsl')">qacreate-oxygen-documentation.xsl</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')">qadata.xsl</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Stylesheet version</td>
+                        <td>2.0</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="T_top-levelS_qachecks_qa_checks.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">top-level</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_top-levelS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_T_top-levelS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_top-levelS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_S_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_T_top-levelS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_T_top-levelS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_T_top-levelS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Variable</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_unused-elementsS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">unused-elements</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_top-levelS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_T_top-levelS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_top-levelS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"top-level"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"non-checked-elements"</span><span class="tAN"> select=</span><span class="tAV">"descendant-or-self::node()[   not(name() = 'draft-comment'    or name() = 'apiname'    or name() = 'codeblock'    or name() = 'codeph'    or name() = 'parmname'    or name() = 'synblk'    or name() = 'filepath'    or name() = 'msgph'    or name() = 'msgblock'    or name() = 'systemoutput'    or name() = 'userinput'    or name() = 'screen'    or name() = 'uicontrol'    or name() = 'varname'    or name() = 'wintitle'    or name() = 'pre')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[(matches(., 'See page', 'i')     or matches(., 'On page', 'i')) and not(matches(., 'page', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-Page"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-1"</span><span class="tEl">&gt;</span><span class="tT">Do not reference page numbers.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'See step', 'i') and not(matches(., 'step'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-See-step-01"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-1"</span><span class="tEl">&gt;</span><span class="tT">Do not reference task steps.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'Appendix', 'i') or matches(., 'See appendix', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-Appendix-01"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"warning-toplevel"</span><span class="tEl">&gt;</span><span class="tT">Do not reference book appendices.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'Chapter', 'i')    or matches(., 'See chapter', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-Chapter-01"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"warning-toplevel"</span><span class="tEl">&gt;</span><span class="tT">Do not reference book chapters.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'See figure', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-See-figure"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"warning-toplevel"</span><span class="tEl">&gt;</span><span class="tT">Do not reference figure numbers.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'See table', 'i')and not(matches(., 'See\stable\s\w', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-See-table"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"warning-toplevel"</span><span class="tEl">&gt;</span><span class="tT">Do not reference table numbers.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'B035\-\d\d\d\d\-.+', 'i') or matches(., 'B500\-\d\d\d\d\-.+', 'i') or matches(., 'B700\-\d\d\d\d\-.+', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-pid-release-number"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-2"</span><span class="tEl">&gt;</span><span class="tT">In cites, only include the first eight digits of a PID. Do not include the release number (last four digits). Some exceptions apply.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., ' NDA')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-nda"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-2"</span><span class="tEl">&gt;</span><span class="tT">Teradata programs under a non-disclosure agreement (NDA) cannot be published until the NDA is lifted.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., ' tays\.')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-tays"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-2"</span><span class="tEl">&gt;</span><span class="tT">Use the "access.teradata.com" referable content element instead of "Teradata At Your Service (TAYS)."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., ' tsd\.')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-tsd"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-2"</span><span class="tEl">&gt;</span><span class="tT">Use the "access.teradata.com" referable content element instead of "Teradata Software Downloads."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'draft', 'i')    or matches(., '\?\?\?')    or matches(., '\?\?')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-D078-draft"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-3"</span><span class="tEl">&gt;</span><span class="tT">Do not use "draft," "???," or "??" to mark draft comments or notes in production content.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//*[name() = $unused-elements]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">".//*[name() = $unused-elements]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-unsupportedDitaElements"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-3"</span><span class="tEl">&gt;</span><span class="tT">Do not use the unsupported element </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"./name()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//note[not(@type)]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02N-noteWithoutType"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tAN"> importance=</span><span class="tAV">"warning-toplevel"</span><span class="tEl">&gt;</span><span class="tT">Add a type attribute to each note element.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//*[contains(@href, 'info.teradata.com/download.cfm')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!--	https://info.teradata.com/download.cfm?ItemID=1016375	--&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-info-teradata-com-download"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-3"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tEl">&gt;</span><span class="tT">Do not use links containing "info.teradata.com/download.cfm."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//*[contains(@href, '/reader/')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!--	https://docs.teradata.com/reader/umUOX_Ybos7nn6QXwtL4~g/VPPtRE~99l8twoTtlx1t8Q	--&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-FluidTopics-reader"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> importance=</span><span class="tAV">"error-toplevel-3"</span><span class="tAN"> outputclass=</span><span class="tAV">"top-level"</span><span class="tEl">&gt;</span><span class="tT">Do not use links containing "/reader/" in dynamically generated links to Fluid Topics content."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test=".//*[matches(@href, 'http://.+?\.teradata\.com')]"&gt;
+			&lt;!-\-	https://www.teradata.com/Legal/Legal-Notice	-\-&gt;
+			&lt;data id="TD-http-teradata-com" type="msg" importance="error-toplevel-3" outputclass="top-level"&gt;Use the secure protocol &amp;quot;https://&amp;quot; in Teradata links instead of the non-secure protocol &amp;quot;http://&amp;quot;.&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="T_termS_qachecks_qa_checks.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">term</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_termS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_T_termS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_termS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_S_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_termS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_T_termS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_termS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"term"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"non-checked-elements"</span><span class="tAN"> select=</span><span class="tAV">"descendant-or-self::node()[    not(name() = 'draft-comment'     or name() = 'apiname'     or name() = 'codeblock'     or name() = 'codeph'     or name() = 'parmname'     or name() = 'synblk'     or name() = 'filepath'     or name() = 'msgph'     or name() = 'msgblock'     or name() = 'systemoutput'     or name() = 'userinput'     or name() = 'screen'     or name() = 'uicontrol'     or name() = 'varname'     or name() = 'wintitle'     or name() = 'pre')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., ' Danger: ', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-Danger-01"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Do not use type=danger attribute in note element.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\sabort\s')][not(matches(., 'ABORT'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-A010-abort"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "abort," use "cancel" or "stop."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'and/or', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-A050-and-or"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "and/or", expand sentence to be more specific.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'anti-virus', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-A058-anti-virus"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "anti-virus", use "antivirus."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'as\slong\sas', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-A070-as-long-as"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "as long as", use "provided that" or "if."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"     $non-checked-elements/text()[matches(., '\sboot', 'i')]     [not(matches(., '\sboot\sfile', 'i'))]     [not(matches(., '\sboot\senvironment', 'i'))]     [not(matches(., '\sboot\slog', 'i'))]     [not(matches(., '\sBoot\sList', 'i'))]     [not(matches(., '\sBoot\sOptions', 'i'))]     [not(matches(., '\sBoot\sServer\sHost', 'i'))]     [not(matches(., '\sbootstrap', 'i'))]     [not(matches(., '\sbootable\sISO', 'i'))]     [not(matches(., '\sboot\ssector', 'i'))]     [not(matches(., '\sboot\sservice', 'i'))]     [not(matches(., 'Boot\sDevice\sManager', 'i'))]     [not(matches(., '\sboot\sconfiguration\ssettings', 'i'))]     [not(matches(., 'PXE\sboot', 'i'))]     [not(matches(., '(PXE)\sboot', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-B045-boot"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead
+				of "boot", use "turn on" (for physical machines) or "start" (for virtual
+				machines).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'click\son\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-C045-click-on"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "click on", use "click."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'context\smenu', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-C060-context-menu"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "context menu", use "shortcut menu."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'copy\spaste', 'i') or(matches(., 'copy/paste', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-C065-copy-and-paste"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "copy paste" or "copy/paste", use "copy and paste."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'crash', 'i')][not(matches(., 'crash\sdump', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-C070-crash"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "crash", use "fail," "stop responding," or another appropriate
+				term.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'datacenter', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-D015-datacenter"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "datacenter", use "data center."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'dialog', 'i')][not(matches(., 'dialog\sbox', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-D030-dialog"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "dialog", use "dialog box."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'domestic', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-D070-domestic"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">When referring to the United States, instead of using "domestic," use more specific wording such as "in the US."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'drag\sand\sdrop', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-D080-drag-and-drop"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "drag and drop", use "drag (to)."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'either/or', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-E025-either-or"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "either/or", expand sentence to be more specific.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"     $non-checked-elements/text()     [matches(., 'end-user\s', 'i')]     [not(matches(., 'end-user\saccess', 'i'))]     [not(matches(., 'end-user\sacceptance', 'i'))]     [not(matches(., 'end-user\saccount', 'i'))]     [not(matches(., 'end-user\sadoption', 'i'))]     [not(matches(., 'end-user\sapplication', 'i'))]     [not(matches(., 'end-user\sauthentication', 'i'))]     [not(matches(., 'end-user\scommunity', 'i'))]     [not(matches(., 'end-user\sconnection', 'i'))]     [not(matches(., 'end-user\scredential', 'i'))]     [not(matches(., 'end-user\scustomization', 'i'))]     [not(matches(., 'end-user\sdata', 'i'))]     [not(matches(., 'end-user\sdevice', 'i'))]     [not(matches(., 'end-user\senvironment', 'i'))]     [not(matches(., 'end-user\sexperience', 'i'))]     [not(matches(., 'end-user\sfrustration', 'i'))]     [not(matches(., 'end-user\sgroup', 'i'))]     [not(matches(., 'end-user\sissue', 'i'))]     [not(matches(., 'end-user\slocation', 'i'))]     [not(matches(., 'end-user\slogon', 'i'))]     [not(matches(., 'end-user\sname', 'i'))]     [not(matches(., 'end-user\sneed', 'i'))]     [not(matches(., 'end-user\spassword', 'i'))]     [not(matches(., 'end-user\spersonalization', 'i'))]     [not(matches(., 'end-user\sprofile', 'i'))]     [not(matches(., 'end-user\srequirement', 'i'))]     [not(matches(., 'end-user\ssatisfaction', 'i'))]     [not(matches(., 'end-user\ssegmentation', 'i'))]     [not(matches(., 'end-user\ssession', 'i'))]     [not(matches(., 'end-user\ssetting', 'i'))]     [not(matches(., 'end-user\straining', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-E040-end-user"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Do not hyphenate the noun form of "end-user."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., concat('end-user', '''', 's'), 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-E048-end-user-s"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "end-user's", use "end user's" for the noun form.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., concat('end-users', ''''), 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-E047-end-users-"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "end-users'", use "end users'" for the noun form.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'ensure', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-E055-ensure"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "ensure", use "make sure."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'execute', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-E090-execute"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">When referring to commands, instead of "execute" use "start" or "run."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'for\smore\sinformation\son\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-F030-for-more-information-on"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "For more information on", use "For more information about,
+				see."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test="$non-checked-elements/text()[matches(., 'foreign', 'i')]"&gt;
+			&lt;data id="TD-F035-foreign" type="msg" outputclass="term general" importance="warning"
+				&gt;Instead of "foreign" when referring to a location outside the United States, use a
+				more specific reference such as "outside the US"&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'gig\s', 'i') or matches(., 'gigs', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-G035-gig"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">For gigabyte, instead of "gig," use "GB."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\sgray\s')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-G070-gray"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of using "gray" when referring to unavailable menu items, use "not available" or "unavailable."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'grayed\sout', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-G075-grayed-out"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of using "grayed out" when referring to unavailable menu items, use "not available" or "unavailable."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\shang', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-H010-hang"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of using "hang" when referring to programs that have stopped responding, use "stop" or "stopped."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\shit\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-H035-hit"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead
+				of "hit", use "press."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\shung', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-H085-hung"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of referring to programs that have stopped responding as "hung," use "stop" or "stopped."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'indices', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-I040-indexes"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "indices", use "indexes."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'info\.teradata\.com')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-IO42-info-teradata-com"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "info.teradata.com", refer readers to "docs.teradata.com."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'in\sspite\sof', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-I045-in-spite-of"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "in spite of", use "regardless" or "despite."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'insecure', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-I050-insecure"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "insecure", use "not secure."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'instantiate', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-I055-instantiate"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "instantiate", use "create an instance of."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\skbps', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-K010-kbps"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead
+				of "kbps", use "KB per second" (for bytes) or "Kb per second" (for bits).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\skill\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-K035-kill"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead
+				of "kill", use "end" or "stop."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'leverage', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L015-leverage"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "leverage", use "take advantage of," "capitalize on," "use," or another
+				more appropriate word or phrase.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'login\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L040-login"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "login", use "log on" (verb) or "logon" (noun or adjective).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'log\sin\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L042-log-in"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "log in", use "log on" (verb) or "logon" (noun or adjective).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'logged\sin\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L045-logged-in"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "logged in", use "logged on" (verb).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'logoff\sof\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L048-logoff-of"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "logoff of", use "log off from" (verb).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'log\soff\sof\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L051-log-off-of"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "log off of", use "log off from" (verb).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'log\sonto\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L054-log-onto"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "log onto", use "log on to" (verb).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'log\sout\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L057-log-out"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "log out", use "log off" (verb) or "logoff" (noun or adjective).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'logout\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-L061-logout"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "logout", use "log off" (verb) or "logoff" (noun or adjective).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'matrices', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-M008-matrixes"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "matrices", use "matrixes."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'micro\sservices', 'i') or matches(., 'micro-services', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-M030-microservices"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">
+				Instead of "micro services" or "micro-services", use "microservices."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'mouse\sover\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-M050-mouse-over"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "mouse over," use "move the pointer over the button" or "hover."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'multi-', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-M085-multi"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "multi-", remove hyphen or reword phrase.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'navigate\sto\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-N010-navigate-to"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "navigate to", use "browse to" or "go to."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\son\spremise', 'i')    or matches(., 'on\spremise', 'i')    or matches(., '\son\spremises', 'i')    or matches(., 'on\spremises', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-O010-on-premises"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "on premise" or "on premises", use "on-premises."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'on\sthe\sother\shand', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-O035-on-the-other-hand"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "on the other hand", use "however" or
+				"alternatively."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\spatch\s', 'i')    and not(matches(., '\sdispatch\s', 'i'))    and not(matches(., '\sdispatcher\s', 'i'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P010-patch"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "patch", use "update."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'pop-up', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P035-pop-up"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "pop-up", use "dialog box."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'power\son', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P040-power-on"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "power on", use "turn on" (for physical machines) or "start" (for
+				virtual machines).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'power\sup', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P045-power-up"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "power up", use "turn on" (for physical machines) or "start" (for
+				virtual machines).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'power\soff', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P050-power-off"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "power off", use "turn off" (for physical machines) or "shut down" (for
+				virtual machines).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'power\sdown', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P055-power-down"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "power down", use "turn off" (for physical machines) or "shut down" (for
+				virtual machines).</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'preexisting', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P070-pre-existing"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "preexisting", use "pre-existing."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"*[contains(@class, ' topic/title ')]/text()[matches(., 'preexisting', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P070-pre-existing-title"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "preexisting", use "Pre-Existing" in a title.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'purge', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-P085-purge"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "purge", use "delete," "clear," or "remove."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\sradio\sbutton', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-R010-radio-button"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "radio button", use "option" or the label name in the interface.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'reboot', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-R025-reboot"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "reboot", use "restart."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'slave', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-S015-slave"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "slave", use "subordinate," "client," "worker," or another appropriate
+				term.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'system\sprompt', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-S025-system-prompt"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "system prompt", use "command prompt."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'terminal\serror', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-T001-terminal-error"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "terminal error", use "unrecoverable error."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'toggle', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-T001-toggle"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "toggle", use "switch," "click," or "turn on and turn off."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., 'utilize', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-U001-utilize"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "utilize", use the word "use."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[    matches(., '\svia\s', 'i')    or matches(., 'via\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-V001-via"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead
+				of "via", use "across," "along," "by," "from," "on," "through," or "using."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\swish\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-W001-wish"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"term general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead
+				of "wish", use "want."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="T_langS_qachecks_qa_checks.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">lang</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_langS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_T_langS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_langS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_S_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_T_langS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_T_langS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_T_langS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Variables</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_cantS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">cant</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_doesntS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">doesnt</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_dontS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">dont</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_wontS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">wont</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_langS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_T_langS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_langS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"lang"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"non-checked-elements"</span><span class="tAN"> select=</span><span class="tAV">"descendant-or-self::node()[    not(name() = 'draft-comment'     or name() = 'apiname'     or name() = 'codeblock'     or name() = 'codeph'     or name() = 'parmname'     or name() = 'synblk'     or name() = 'filepath'     or name() = 'msgph'     or name() = 'msgblock'     or name() = 'systemoutput'     or name() = 'userinput'     or name() = 'screen'     or name() = 'uicontrol'     or name() = 'varname'     or name() = 'wintitle'     or name() = 'pre')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"non-checked-elements-with-shortdesc"</span><span class="tAN"> select=</span><span class="tAV">"descendant-or-self::node()[    not(name() = 'draft-comment'     or name() = 'apiname'     or name() = 'shortdesc'     or name() = 'codeblock'     or name() = 'codeph'     or name() = 'parmname'     or name() = 'synblk'     or name() = 'filepath'     or name() = 'msgph'     or name() = 'msgblock'     or name() = 'systemoutput'     or name() = 'userinput'     or name() = 'screen'     or name() = 'uicontrol'     or name() = 'varname'     or name() = 'wintitle'     or name() = 'pre')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements-with-shortdesc/text()[matches(., $cant, 'i') or matches(., $dont, 'i') or matches(., $doesnt, 'i') or matches(., $wont, 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01C-contractions"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of a contraction such as "can't," "don't," or "doesn't," expand the
+				contractions: "cannot," "do not," "does not". Do not use "won't."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '(\.{3}|ߪ)')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01E-ellipsis"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Do not use ellipsis in uicontrol elements or to indicate intentional omission of text.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--&lt;xsl:if test="$non-checked-elements/text()[matches(., '\?')]"&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--			&lt;xsl:if test="$non-checked-elements/text()[matches(., '\?')]"&gt;
+			&lt;data id="TD_01I-interrogation-point" type="msg" outputclass="lang general"
+				importance="warning"&gt;Do not use "?" to mark internal or draft comments.&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"     $non-checked-elements/text()[     matches(., 'i\.e\.')     or matches(., 'e\.g\.')     or matches(., 'etc\.')     or matches(., 'viz\.')     or matches(., 'et\. al\.')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01L-latinisms"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of latinisms, use "that is", "for example", "and so on", "namely", "and
+				others."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"     $non-checked-elements/text()[     matches(., '\smight\s', 'i')     or matches(., '\sought\s', 'i')     or matches(., '\sshall\s', 'i')     or matches(., '\sshould\s', 'i')     or matches(., '\swill\s', 'i')     or matches(., '\swould\s', 'i')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01M-modals"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of using a modal such as "could", "might", "ought", "shall", "should",
+				"will", or "would", use active voice in the present tense.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"     $non-checked-elements/text()[     matches(., '\she\s')     or matches(., '\shers\s')     or matches(., '\shis\s')     or matches(., '\sit\s')     or matches(., '\sme\s')     or matches(., '\smy\s')     or matches(., '\smine\s')     or matches(., '\sour\s')     or matches(., '\sours\s')     or matches(., '\sshe\s')     or matches(., '\stheirs\s')     or matches(., '\sthem\s')     or matches(., '\sthey\s')     or matches(., '\sus\s')     or matches(., '\syours\s')     or matches(., '\swe\s')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01P-personal-pronouns"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Use only second-person personal pronouns ("you" or "your"). If
+				Teradata recommends an action, use "Teradata recommends."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., '\(s\)')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01P-plural-s"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of "(s)", use the plural or "one or more."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., concat('\w.+', '''', 's'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01P-possessives-1"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Avoid using the possessive, including an apostrophe followed by "s."</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[matches(., concat('\w.+s', '''', '\s'))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01P-possessives-2"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Avoid using the possessive, including an "s" followed by an apostrophe.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[    matches(., '\sa\slot\s')    or matches(., '\sa\sbit\s')    or matches(., '\sa\snumber\sof\s')    or matches(., '\sactually\s')    or matches(., '\salmost\s')    or matches(., '\sbasically\s')    or matches(., '\seventually\s')    or matches(., '\sfairly\s')    or matches(., '\sfew\s')    or matches(., '\shuge\s')    or matches(., '\sinfinitely\s')    or matches(., '\skind\sof\s')    or matches(., '\slargely\s')    or matches(., '\smany\s')    or matches(., '\smaybe\s')    or matches(., '\smostly\s')    or matches(., '\snearly\s')    or matches(., '\sperhaps\s')    or matches(., '\spractically\s')    or matches(., '\sprobably\s')    or matches(., '\squite\s')    or matches(., '\sreally\s')    or matches(., '\sseveral\s')    or matches(., '\sslightly\s')    or matches(., '\ssome\s')    or matches(., '\ssometimes\s')    or matches(., '\ssomewhat\s')    or matches(., '\ssort\sof\s')    or matches(., '\stiny\s')    or matches(., '\susually\s')    or matches(., '\svarious\s')    or matches(., '\svast\s')    or matches(., '\svery\s')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!--td:junk-word($non-checked-elements/text())
+				--&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_01V-vague-qualifiers"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Avoid use of qualifiers and quantifiers that add little or no
+				meaning.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="T_tagS_qachecks_qa_checks.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">tag</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_tagS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_T_tagS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_tagS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_S_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_T_tagS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_T_tagS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_T_tagS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Variables</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-words-paragraphS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-words-paragraph</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-words-titleS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-words-title</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_warning-elementsS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">warning-elements</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_tagS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_T_tagS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_tagS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"tag"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"non-checked-elements"</span><span class="tAN"> select=</span><span class="tAV">"descendant-or-self::node()[    not(name() = 'draft-comment'     or name() = 'apiname'     or name() = 'codeblock'     or name() = 'codeph'     or name() = 'parmname'     or name() = 'synblk'     or name() = 'filepath'     or name() = 'msgph'     or name() = 'msgblock'     or name() = 'systemoutput'     or name() = 'userinput'     or name() = 'screen'     or name() = 'uicontrol'     or name() = 'varname'     or name() = 'wintitle'     or name() = 'pre')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-923: js186017: 2017.03.08 - flags if there is one and only one p or no content; ok, but not what ggancy want --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- &lt;xsl:if test="(.//context/p[1] and not(.//context/p[2])) or .//context[(not(text()) and not(node()))]"&gt; --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- flags if there is a tag immediately after context --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-962: js186017: 2017.07.26 - rule doesn't work on topic contextFormatting --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//context      and (count(/p) = 1 and count(*[substring-before(substring-after(@class, ' '), ' ') = document('../../resource/blockElements.xml')//td:class]) = 1 )(:one blockElement:)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"paragraphs"</span><span class="tAN"> select=</span><span class="tAV">"count(*[substring-before(substring-after(@class, ' '), ' ') = 'topic/p'])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"blockElements"</span><span class="tAN"> select=</span><span class="tAV">"count(*[substring-before(substring-after(@class, ' '), ' ') = document('../../resource/blockElements.xml')//td:class])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"contextFormatting-name"</span><span class="tAN"> select=</span><span class="tAV">"concat('Remove the ', name(*[1]), ' element and place the text in the context element. Use a ', name(*[1]), ' element with a context element when there is more than one block of text. ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02C-contextFormatting"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Remove the child element and place the text in the context element. Use a child element with a context element when there is more than one block of text.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test=".//draft-comment[not(@time)]"&gt;
+			&lt;data id="TD_02D-draftcommentWithoutTime" type="msg" outputclass="tag general"
+				importance="warning"&gt;The draft-comment element must have a value defined in the time attribute.&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//cmd[(not(text()) and not(node()))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02P-cmdEmpty"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">The cmd element must have content and cannot be empty.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//info/ol"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02I-infoWithOl"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Use the substeps element to create a numbered list of substeps in a step. Do not use an ol element in a step.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//info/ul"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02I-infoWithUl"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Use the choices element to create a list of choices in a step. Avoid using the ul element in a step.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-962: js186017: 2017.07.21 - empty content checks are too noisy for Schematron rules --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test=".//dl/dlentry/dd[not(text())]"&gt;
+			&lt;data id="TD_02D-ddEmpty" type="msg" outputclass="tag general" importance="warning"&gt;Found
+				a definition list entry with missing definition text. Delete a definition list entry
+				that does not contain a definition text&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- js186017: 2017.07.24 - too many elements tracked
+			&lt;xsl:for-each select="$non-checked-elements/text()"&gt;
+			&lt;xsl:variable name="count-tokens" select="count(tokenize(., '\s+[^.!?]*[.]'))"/&gt;
+			&lt;xsl:if test=".[count(tokenize(., '\s+[^.!?]*[.]')) &amp;gt; $max-sentences-element]"&gt;
+				&lt;data id="TD_02E-elementLength" type="msg" outputclass="tag general" importance="warning"&gt;Element has &lt;xsl:value-of
+					select="$count-tokens"/&gt; sentences. Elements with more than &lt;xsl:value-of
+						select="$max-sentences-element"/&gt; sentences are hard to read.&lt;/data&gt;
+			&lt;/xsl:if&gt;
+		&lt;/xsl:for-each&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test="string-length(ancestor::*[1]/@xtrf) &amp;gt; $max-filepath-length"&gt;
+			&lt;data id="TD_02F-filepathLength" type="msg" outputclass="tag general" importance="warning"
+				&gt;filepath is longer than 255 characters. Shorten the file or folder name&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//li/text()[matches(., '^[a-z].*')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02L-liNotSentenceCase"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Capitalize the first letter in list items.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//note[@type = 'caution']"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02N-noteCaution"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(.//note[@type = 'caution'])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//note    and count(*[substring-before(substring-after(@class, ' '), ' ') = 'topic/p']) = 1    and count(*[substring-before(substring-after(@class, ' '), ' ') = document('../../resource/blockElements.xml')//td:class]) = 1"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"paragraphs"</span><span class="tAN"> select=</span><span class="tAV">"count(*[substring-before(substring-after(@class, ' '), ' ') = 'topic/p'])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"blockElements"</span><span class="tAN"> select=</span><span class="tAV">"count(*[substring-before(substring-after(@class, ' '), ' ') = document('../../resource/blockElements.xml')//td:class])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"noteFormatting-name"</span><span class="tAN"> select=</span><span class="tAV">"concat('Remove the ', name(*[1]), ' element and     place the text in the note. If the note has only one block of text, do not use     paragraphs. If the note has more than one block of text, use paragraphs, lists     or another block element.')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02N-noteFormatting"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$noteFormatting-name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//note[@type = 'warning']"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02N-noteWarning"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(.//note[@type = 'warning'])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test="string-length(.//searchtitle) &amp;gt; $max-characters-searchtitle"&gt;
+			&lt;data id="TD_01S-searchtitle-length" type="msg" outputclass="term general" importance="warning"
+				&gt;Searchtitles for SEO are recommended to be around &lt;xsl:value-of select="$max-characters-searchtitle"/&gt; characters.&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//ul/li/ul/li/ul/li | .//ul/li/ol/li/ul/li | .//ul/li/ol/li/ol/li | .//ol/li/ul/li/ul/li | .//ol/li/ol/li/ul/li | .//ol/li/ol/li/ol/li"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02O-overnestedUlOlLi"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Do not nest ul/li or ol/li elements more than two levels deep.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//p[not(text())]/dl"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02P-paragraphEmptyDlNested"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Do not nest a definition list element in an empty paragraph.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-962: js186017: 2017.07.21 - empty content checks are too noisy for Schematron rules --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//p[(not(text()) and not(node()))]//* or .//p[(not(text()) and not(node()))]/* or .//p[(not(text()) and not(node()))]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02P-paragraphEmpty"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">A p element must have content and cannot be empty.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//p | .//cmd    and (count(tokenize(normalize-space(.), '[\w]+')) - 1 (:count minus one of space-delimited tokens in text:)    gt $max-words-paragraph)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"text"</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"tokenized-text"</span><span class="tAN"> select=</span><span class="tAV">"tokenize($text, '[\w]+')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"count-tokens"</span><span class="tAN"> select=</span><span class="tAV">"count($tokenized-text) - 1"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"paragraphLength-count-tokens-max-words-paragraph"</span><span class="tAN"> select=</span><span class="tAV">"concat('Paragraph or cmd has ', $count-tokens, ' words. Text in a paragraph or cmd with more than ', $max-words-paragraph, ' words are hard to read')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02P-paragraphLength"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$paragraphLength-count-tokens-max-words-paragraph"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- handle p-is prior to QA processing --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//processing-instruction()[starts-with(name(), 'oxy_')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_03P-processing-instruction"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"info"</span><span class="tEl">&gt;</span><span class="tT">One or more processing instructions remain in the source DITA and should be cleared. This resulted from the Astoria import or from using the Oxygen review toolbar.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[contains(., '®')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02R-regCharacter"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of manually entering ®, use the tm element with type=reg attribute.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-962: js186017: 2017.07.26 - rule doesn't work on test topic relatedlinksLinklistLink --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//*[contains(@class, ' topic/related-links ')]/*[contains(@class, ' topic/linklist ')]/*[contains(@class, ' topic/link ')][@importance = 'required']"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02R-relatedlinksLinklistLink"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">When the link element has the importance=required attribute, the link element must not be a descendant of the related-links element.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-962: js186017: 2017.07.21 - empty content checks are too noisy for Schematron rules --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test=".//row/entry[not(text())]"&gt;
+			&lt;data id="TD_02R-rowEmpty" type="msg" outputclass="tag general" importance="warning"&gt;Found
+				a table row with empty entry. Delete empty table entries&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-962: js186017: 2017.07.26 - rule doesn't work on topic shortdescLength --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test=".//shortdesc/text()
+			and ((string-length(normalize-space(.)) - string-length(translate(normalize-space(.), ' ', ''))) &amp;gt; $max-words-shortdesc)"&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test="string-length(normalize-space(.//shortdesc/text())) &amp;gt; $max-characters-shortdesc"&gt;
+			&lt;xsl:variable name="shortdescLength-max-chars-shortdesc" select="concat('A shortdesc for SEO should contain no more than', $max-characters-shortdesc, 'characters.')"/&gt;
+			&lt;data id="TD_02S-shortdescLength" type="msg" outputclass="tag general"
+				importance="warning"&gt;&lt;xsl:value-of select="$shortdescLength-max-chars-shortdesc"/&gt;&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--&lt;xsl:if test="((string-length(normalize-space(.//shortdesc/text())) - string-length(translate(normalize-space(.//shortdesc/text()), ' ', ''))) &amp;gt; $max-words-shortdesc)"&gt;
+			&lt;xsl:variable name="shortdescLength-max-words-shortdesc" select="concat('A shortdesc element should contain a single concise paragraph containing one or two sentences or sentence fragments. ', $max-words-shortdesc, ' words.')"/&gt;
+			words."/&gt;
+			&lt;data id="TD_02S-shortdescLength" type="msg" outputclass="tag general"
+				importance="warning"&gt;A shortdesc element should contain a single concise paragraph containing one or two sentences or sentence fragments.&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test="string-length(normalize-space(.//searchtitle/text())) &amp;gt; $max-characters-searchtitle"&gt;
+			&lt;xsl:variable name="searchtitleLength-max-chars-searchtitle" select="concat('A searchtitle used in a topic for SEO should contain no more than ', $max-characters-searchtitle, ' characters.')"/&gt;
+			&lt;data id="TD_02S-searchtitleLength" type="msg" outputclass="tag general" importance="warning"&gt;&lt;xsl:value-of select="$searchtitleLength-max-chars-searchtitle"/&gt;&lt;/data&gt;
+        &lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[contains(., '℠')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02S-smCharacter"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of manually entering ℠, use the tm element with type=service attribute.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--.//*[contains(@class, ' topic/image ')][@placement = 'inline']--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"    ./*[not(*[contains(@class, ' topic/uicontrol ')])]/*[contains(@class, ' topic/image ')][@placement = 'inline']    and (not(ends-with(preceding-sibling::node()[1], ' '))      and not(starts-with(following-sibling::node()[1], ' '))      and (not(starts-with(following-sibling::node()[1], ','))       or not(starts-with(following-sibling::node()[1], '.'))))"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02S-spacesAroundImages"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Use a single space around the image element when the attribute placement=inline.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--&lt;xsl:if test="//title/text()[matches(., concat('^.*', $capitalized-prepositions, '.*$'))]"&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//title/text()[matches(., '^.*( About | Across | After | Against | Along | Among | As | At | Before | Behind | Below | Beside | Between | Beyond | By | During | Down | Except | For | From | In | Into | Inside | Of | Onto | Out | Outside | Over | Since | Than | Through | To | Toward | Under | Until | With | Within | Without ).*$')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02T-titlePrepositionsCapitalized"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Use lowercase for prepositions in titles unless the preposition is at the beginning of a title.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- IETOOLS-962: js186017: 2017.07.21 - empty content checks are too noisy for Schematron rules --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test=".//strow/stentry[not(text())]"&gt;
+			&lt;data id="TD_02S-strowEmpty" type="msg" outputclass="tag general" importance="warning"
+				&gt;Found an empty simple table row. Delete empty simple table rows&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"count(for $w in .//title/text()/tokenize(., '\W+')[.!=''] return lower-case($w)) &gt; $max-words-title"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"titleLength-max-words-title"</span><span class="tAN"> select=</span><span class="tAV">"concat('Use no more than ', $max-words-title, ' words in the     topic title.')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02T-titleLength"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$titleLength-max-words-title"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$non-checked-elements/text()[contains(., '™')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02T-tmCharacter"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"tag general"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Instead of manually entering ™, use the tm element with type=tm attribute.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--		&lt;xsl:if test="(.//b | .//i | .//u)"&gt;
+			&lt;data id="TD_02T-typographic-elements" type="msg" outputclass="markup"
+				importance="warning"&gt;Do not use the b, i, or u elements unless approved by the project information architect and when there is not a more semantically correct tag.&lt;/data&gt;
+		&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".//*[name() = $warning-elements]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">".//*[name() = $warning-elements]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_02T-typographicElements"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"markup"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">Do not use the </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"./name()"</span><span class="tXSLEl">/&gt;</span><span class="tT"> element unless approved by the project information architect and when there is not a more semantically correct tag.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="T_passiveVoiceS_qachecks_qa_checks.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">passiveVoice</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_T_passiveVoiceS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('dS_T_passiveVoiceS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_T_passiveVoiceS_qachecks_qa_checks.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3><pre>&lt;xsl:template name="filtering"&gt;
+		 IETOOLS-923: js186017: 2017.03.21 - don't list filtering values </pre><pre>  filtering; List conditions found in the topic  </pre><pre>		&lt;xsl:if test=".//*[exists(@otherprops)]"&gt;
+			&lt;data id="list-of-otherprops-values" type="msg" outputclass="filtering" importance="low"&gt;@otherprops values used in topic: &lt;xsl:value-of select="distinct-values(.//*/@otherprops)" separator=", "/&gt;&lt;/data&gt;
+		&lt;/xsl:if&gt;
+	&lt;/xsl:template&gt;</pre></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_passiveVoiceS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_T_passiveVoiceS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_passiveVoiceS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_S_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_passiveVoiceS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_T_passiveVoiceS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_passiveVoiceS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"passiveVoice"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--  check for occurences of passive voice in topics  --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"tokenString"</span><span class="tAN"> select=</span><span class="tAV">"tokenize(lower-case(ancestor::*[contains(@class, ' topic/topic ')][1]), '(\s|[,.?!:;])+')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--  IETOOLS-923: js186017: 2017.02.10 - added returned --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"passiveIndicators"</span><span class="tAN"> select=</span><span class="tAV">"('added', 'become', 'begun', 'broken', 'brought', 'built', 'configured', 'chosen', 'cut', 'discovered', 'done', 'downloaded', 'drawn', 'found', 'fit', 'forbidden', 'forgotten', 'frozen', 'gotten', 'given', 'hung', 'installed', 'kept', 'known', 'led', 'left', 'let', 'lost', 'made', 'managed', 'meant', 'met', 'mistaken', 'put', 'quit', 'read', 'redirected', 'returned', 'set', 'shut', 'split', 'spread', 'stolen', 'stuck', 'taken', 'taught', 'told', 'understood', 'uninstalled', 'woken', 'withheld')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"beVerbs"</span><span class="tAN"> select=</span><span class="tAV">"('are', 'were', 'being', 'is', 'been', 'was', 'be')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"hasBeVerb"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$tokenString = $beVerbs"</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">true</span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">false</span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"hasIndicator"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$tokenString = $passiveIndicators"</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">true</span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">false</span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"hasPassive"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$hasBeVerb = $hasIndicator"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$hasBeVerb"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">false</span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;data</span><span class="tAN"> name=</span><span class="tAV">"hasPassive"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$hasPassive"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$hasPassive[contains(., 'true')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_03P-passive-verbs"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"lang passive"</span><span class="tAN"> importance=</span><span class="tAV">"warning"</span><span class="tEl">&gt;</span><span class="tT">If possible, use the active voice instead of passive.</span><span class="tC">&lt;!-- See
+				&amp;lt;mapname&amp;gt;-qa-report.html for a list of passive verb markers--&gt;</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="T_xrefsS_qachecks_qa_checks.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">xrefs</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_xrefsS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_T_xrefsS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_xrefsS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_S_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_xrefsS_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_T_xrefsS_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_xrefsS_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"xrefs"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- External Links  --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"descendant-or-self::*[contains(@href, 'http://') or contains(@href, 'https://') or contains(@href, 'ftp://')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_04X-xrefList"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> importance=</span><span class="tAV">"low"</span><span class="tAN"> outputclass=</span><span class="tAV">"link xrefs"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"@href"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="O_S_qachecks_qa_checks.xsl"></a><div class="cmpT">Output
+         <span class="qname">(default)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_O_S_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('dS_O_S_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_O_S_qachecks_qa_checks.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3><pre>	for testing individual new rules, uncomment lines 14-20; declaring path-specific variable doesn't work if xsl with variable is applied to context not aware of original node</pre></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Output properties</div>
+                           <div class="flR"><input id="bt_o_" type="image" src="img/btM.gif" value="-" onclick="switchState('o_');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="o_" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>method</th>
+                                       <th>encoding</th>
+                                       <th>indent</th>
+                                       <th>omit-xml-declaration</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>yes</td>
+                                    <td>yes</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_O_S_qachecks_qa_checks.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_O_S_qachecks_qa_checks.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_O_S_qachecks_qa_checks.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:output</span><span class="tAN"> method=</span><span class="tAV">"xml"</span><span class="tAN"> indent=</span><span class="tAV">"yes"</span><span class="tAN"> omit-xml-declaration=</span><span class="tAV">"yes"</span><span class="tAN"> encoding=</span><span class="tAV">"UTF-8"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">Stylesheet documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Developer.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                    // The namespace is the selected option in the TOC combo.
+                    
+                    // The corresponding div is already visible conf. to its style attr.                     
+                    
+                            var selectToc = getElementObject('selectTOC');
+                            if(selectToc != null){
+                            // It can be null when having chunking, the combo of the TOC is in another frame.
+                            selectToc.selectedIndex = 0;
+                            }
+                        
+                    
+                    // Floats the toolbar.
+                    var globalControls = getElementObject("global_controls"); 
+                    
+                    if(globalControls != null){
+                    var browser=navigator.appName;
+                    var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+                    
+                    var IE6 = false;
+                    if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+                    IE6 = true;
+                    }
+                    
+                    //alert (IE6 + " |V| " + version);
+                    
+                    if(IE6){
+                    // On IE 6 the 'fixed' property is not supported. We must use javascript. 
+                    globalControls.style.position='absolute';                         
+                    // The global controls will do not exist in the TOC frame, when chunking.
+                    findAndFloat("global_controls", 225, 30);    
+                    } else {
+                    globalControls.style.position='fixed';                     	
+                    }
+                    
+                    globalControls.style.right='0';                       
+                    }
+                //--></script></body>
+</html>

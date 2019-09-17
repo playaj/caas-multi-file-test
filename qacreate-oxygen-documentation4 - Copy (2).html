@@ -1,0 +1,1749 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Stylesheet documentation for: qadata.xsl</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        var usedByBoxes= new Array('uB_T_get-topic-title-idS_qadata.xsl', 
+				'uB_K_tagErrorsWarningsS_qadata.xsl');
+
+        var docBoxes= new Array('dS_O_S_qadata.xsl', 
+				'dS_K_tagErrorsWarningsS_qadata.xsl');
+
+        var sourceBoxes= new Array('src_M_nodeS_qadata.xsl', 
+				'src_M_S_qadata.xsl', 
+				'src_T_get-topic-title-idS_qadata.xsl', 
+				'src_M_containsclasstopicaltS_qadata.xsl', 
+				'src_M_containsclasstopicsearchtitleS_qadata.xsl', 
+				'src_M_containsclasstopicshortdescS_qadata.xsl', 
+				'src_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl', 
+				'src_O_S_qadata.xsl', 
+				'src_K_tagErrorsWarningsS_qadata.xsl');
+
+        
+        
+        var referencesBoxes= new Array('refs_M_S_qadata.xsl', 
+				'refs_T_get-topic-title-idS_qadata.xsl', 
+				'refs_M_containsclasstopicaltS_qadata.xsl', 
+				'refs_M_containsclasstopicsearchtitleS_qadata.xsl', 
+				'refs_M_containsclasstopicshortdescS_qadata.xsl', 
+				'refs_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl');
+
+        
+        var includesBoxes= new Array('ic_qadata.xsl');
+
+        
+        var includedFromBoxes= new Array('icF_qadata.xsl');
+
+        var button_prefix = 'bt_';
+        
+        /**
+        * Get all DIV elements with a specified class name.
+        *
+        * @param className The class name. 
+        */
+        function getElementsByClassName(className) {
+            var results = [];
+    
+             if (document.getElementsByClassName == undefined) {
+                var allElements = document.getElementsByTagName("div");
+                var element;
+                for (var i = 0; i < allElements.length; i++) {
+                    var element = allElements[i];
+                	var elementClass = element.className;
+                	if (elementClass == className) { 
+                		results.push(element);
+                	}
+                }
+             } else {
+                results = document.getElementsByClassName(className);
+             }
+    
+            return results;
+        }
+            
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+
+       /**
+        * Switch between the compact list representation and the clasic list representation.
+        */
+       function switchMode(checkBox) {
+            if (checkBox == null) {
+                // Checkbox not found
+            } else if (checkBox.checked == 1) {
+                // Compact mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "inline";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "inline";
+                    }
+                }
+            } else {
+                // Expanded mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "block";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "none";
+                    }
+                }
+            }
+        }
+
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updPT(message) {
+            top.document.title = "Stylesheet documentation for: " + message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id){
+         var selectIds = new Array('toc_group_by_location', 'toc_group_by_component_type', 'toc_group_by_namespace', 'toc_group_by_mode');
+            // Make all the tabs invisible.
+            for (i = 0; i < 4; i++){
+               var tab = getElementObject(selectIds[i]);
+               tab.style.display = 'none';
+            }
+            var selTab = getElementObject(id);
+            selTab.style.display = 'block';            
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cTL"></td>
+               <td class="rt_lT"></td>
+               <td class="rt_cTR"></td>
+            </tr>
+            <tr>
+               <td class="rt_lL"></td>
+               <td class="rt_cnt">
+                  <h3>Mode:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchMode(this);" class="control" /></span><span class="globalControlName">Compact lists</span></td>
+                     </tr>
+                  </table>
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, docBoxes);" class="control" /></span><span class="globalControlName">Documentation
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, referencesBoxes);" class="control" /></span><span class="globalControlName">References </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, includesBoxes);" class="control" /></span><span class="globalControlName">Included modules
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, includedFromBoxes);" class="control" /></span><span class="globalControlName">Included from
+                              </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lR"></td>
+            </tr>
+            <tr>
+               <td class="rt_cBL"></td>
+               <td class="rt_lB"></td>
+               <td class="rt_cBR"></td>
+            </tr>
+         </table>
+      </div><a id="qadata.xsl"></a><div class="cmpT">Stylesheet
+         <span class="qname">qadata.xsl</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Included modules</div>
+                           <div class="flR"><input id="bt_ic_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('ic_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="ic_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')">qachecks/_qa_checks.xsl</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">qainit.xsl</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">qavariables.xsl</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Included from</div>
+                           <div class="flR"><input id="bt_icF_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('icF_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="icF_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation0.html#qacreate-oxygen-documentation.xsl" target="_self" title="No namespace" onclick="updPT('qacreate-oxygen-documentation.xsl')">qacreate-oxygen-documentation.xsl</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Stylesheet version</td>
+                        <td>2.0</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="M_nodeS_qadata.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateMatch">@* | node()</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>@* | node()</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Mode</td>
+                        <td>#default</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_M_nodeS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_M_nodeS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_M_nodeS_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"@* | node()"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:copy</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:apply-templates</span><span class="tAN"> select=</span><span class="tAV">"@* | node()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:copy&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="M_S_qadata.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateMatch">/</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>/</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Mode</td>
+                        <td>#default</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_M_S_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_M_S_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_M_S_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_langS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">lang</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_passiveVoiceS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">passiveVoice</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_tagS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">tag</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_termS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">term</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_top-levelS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">top-level</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_xrefsS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">xrefs</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Variables</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_OGNameS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">OGName</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_ditavalFileS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">ditavalFile</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_has-branding-transition-statements-boolS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">has-branding-transition-statements-bool</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_has-svgs-boolS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">has-svgs-bool</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_inputMapS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">inputMap</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-characters-searchtitleS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-characters-searchtitle</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-characters-shortdescS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-characters-shortdesc</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_outgen.job.output.dirS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">outgen.job.output.dir</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_outgen.job.output.dir.fqnS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">outgen.job.output.dir.fqn</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_pdf-antenna-house-log-parsed-boolS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">pdf-antenna-house-log-parsed-bool</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_qa-maps-metadata-table-boolS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">qa-maps-metadata-table-bool</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_qa-maps-metadata-table-uriS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">qa-maps-metadata-table-uri</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_quality-guidance-boolS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">quality-guidance-bool</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_suppress-warnings-boolS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">suppress-warnings-bool</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_tempMapS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">tempMap</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Key</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#K_tagErrorsWarningsS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')">tagErrorsWarnings</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Parameters</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_FILTERFILES_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">FILTERFILE</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapbooktitlealtoneS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapbooktitlealtone</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapbooktitlealtthreeS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapbooktitlealtthree</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapbooktitlealttwoS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapbooktitlealttwo</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapbrandsS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapbrands</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapcategoriesS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapcategories</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapcomponentsS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapcomponents</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapcopyrfirstyearS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapcopyrfirstyear</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapcopyrlastyearS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapcopyrlastyear</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapfeatnumS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapfeatnum</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapidS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapid</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmaplibraryS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmaplibrary</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapothermetaaccess-flutoS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapothermetaaccess-fluto</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapothermetabundle-flutoS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapothermetabundle-fluto</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapothermetatitle-flutoS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapothermetatitle-fluto</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapprodnamesS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapprodnames</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmappropsS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapprops</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapsearchtitleS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapsearchtitle</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapshortdescS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapshortdesc</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmaptrademarklistS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmaptrademarklist</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapvrmreleaseS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapvrmrelease</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_bookmapvrmversionS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">bookmapvrmversion</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_filerootS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">fileroot</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_is-conref-missing-targetS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">is-conref-missing-target</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation8.html#P_outgen.job.requester.emailS_qainit.xsl" target="_self" title="No namespace" onclick="updPT('qainit.xsl')">outgen.job.requester.email</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Functions</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_containstmregS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>containstmreg (</span><span class="fParams">input</span><span>)</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_valid-accessS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>valid-access (</span><span class="fParams">s</span><span>)</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_valid-brandS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>valid-brand (</span><span class="fParams">s</span><span>)</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_valid-categoryS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>valid-category (</span><span class="fParams">s</span><span>)</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_valid-componentS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>valid-component (</span><span class="fParams">s</span><span>)</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_valid-prodnameS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>valid-prodname (</span><span class="fParams">s</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_M_S_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_M_S_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_M_S_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"/"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">Generated using XSLT processor: </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"system-property('xsl:vendor')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- query all the report data into variables that will be "saved" into semantic XML names later --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"thisDoc"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:copy-of</span><span class="tAN"> select=</span><span class="tAV">"*"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"hitCount"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"$thisDoc//*[contains(@class,' topic/body ')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"top-level"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$suppress-warnings-bool = 'false'"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"lang"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"tag"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"term"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"xrefs"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"passiveVoice"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"totalErrortoplevel"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(key('tagErrorsWarnings', 'error-toplevel-1', $hitCount)) +      count(key('tagErrorsWarnings', 'error-toplevel-2', $hitCount)) +      count(key('tagErrorsWarnings', 'error-toplevel-3', $hitCount))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"totalError"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(key('tagErrorsWarnings', 'error', $hitCount))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"totalWarning"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(key('tagErrorsWarnings', 'warning', $hitCount)) +     count(key('tagErrorsWarnings', 'toplevel-warning', $hitCount))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"totalViolations"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$totalError"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- start building the XML database module here --&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;topic</span><span class="tAN"> id=</span><span class="tAV">"qadata{generate-id}"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;title</span><span class="tEl">&gt;</span><span class="tT">QA report data</span><span class="tEl">&lt;/title&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;body</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!--		    	&lt;xsl:comment&gt;&lt;xsl:value-of select="$qa-lite-bool"/&gt;&lt;/xsl:comment&gt;--&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;section</span><span class="tAN"> id=</span><span class="tAV">"overall{generate-id()}"</span><span class="tAN"> outputclass=</span><span class="tAV">"overallData"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"qa-lite-bool"</span><span class="tAN"> select=</span><span class="tAV">"$qa-lite-bool"</span><span class="tAN"> as=</span><span class="tAV">"xs:boolean"</span><span class="tEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"has-branding-transition-statements-bool"</span><span class="tAN"> as=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($has-branding-transition-statements-bool, '$')) then false() else true()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"inputMap"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$inputMap"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"OGName"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$OGName"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"reportDateTime"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"format-dateTime(current-dateTime(), '[h1]:[m01] [P] on [MNn] [D]') "</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"outgen.job.output.dir"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$outgen.job.output.dir"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"outgen.job.output.dir.fqn"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$outgen.job.output.dir.fqn"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"fileRoot"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$fileroot"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"ditavalFile"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (not($FILTERFILE = ''))              then $ditavalFile              else 'Ditaval filter not applied'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"reportGeneratedBy"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$outgen.job.requester.email"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"docTitle"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (document($tempMap)//mainbooktitle)          then document($tempMap)//mainbooktitle          else document($tempMap)/*/title"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmaptitlelegalsymbol-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (td:containstmreg(document($tempMap)//mainbooktitle) = true() or td:containstmreg($bookmaplibrary) or td:containstmreg($bookmapbooktitlealtone) or td:containstmreg($bookmapbooktitlealttwo) or td:containstmreg($bookmapbooktitlealtthree))          then true() else false()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapid"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$bookmapid"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmaplibrary"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmaplibrary, '$')) then 'n/a' else $bookmaplibrary"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapfeatnum"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapfeatnum, '$')) then 'n/a' else $bookmapfeatnum"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapproprietary-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (contains($bookmapprops, 'proprietary')) then true() else false()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapvrmversion"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapvrmversion, '$')) then 'vrm version not defined' else $bookmapvrmversion"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapvrmrelease"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapvrmrelease, '$')) then 'vrm release not defined' else $bookmapvrmrelease"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapbrands"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapbrands, '$')) then 'brand not defined' else $bookmapbrands"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapcategories"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapcategories, '$')) then 'category not defined' else $bookmapcategories"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapprodnames"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapprodnames, '$')) then 'prodname not defined' else $bookmapprodnames"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapcomponents"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapcomponents, '$')) then 'component not defined' else $bookmapcomponents"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapcopyrfirstyear"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapcopyrfirstyear, '$'))            then 'copyrfirst year not defined'            else $bookmapcopyrfirstyear"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapcopyrlastyear"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapcopyrlastyear, '$'))            then 'copyrlast year not defined'            else if  (not($bookmapcopyrlastyear = string(year-from-date(current-date()))))            then concat('Bookmap not updated for current year, ', string(year-from-date(current-date())))            else $bookmapcopyrlastyear"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapsearchtitle"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (not(starts-with($bookmapsearchtitle, '$'))) then $bookmapsearchtitle else '' "</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"seo-map-searchtitle"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"string-length(normalize-space($bookmapsearchtitle)) &gt; $max-characters-searchtitle"</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-map-searchtitle-exceeded-bool"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$bookmapsearchtitle"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapshortdesc"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (not(starts-with($bookmapshortdesc, '$'))) then $bookmapshortdesc else '' "</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"seo-map-shortdesc"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"string-length(normalize-space($bookmapshortdesc)) &gt; $max-characters-shortdesc"</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-map-shortdescLength-exceeded-bool"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$bookmapshortdesc"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmaptrademarklist-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (matches($bookmaptrademarklist, 'tnv1513710189550.dita') or matches($bookmaptrademarklist, 'phq1510888831580.dita') or matches($bookmaptrademarklist, 'rea1537475144342.dita')) then true() else false()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapbooktitlealtone"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (not(starts-with($bookmapbooktitlealtone, '$'))) then $bookmapbooktitlealtone else ''"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapbooktitlealttwo"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (not(starts-with($bookmapbooktitlealttwo, '$'))) then $bookmapbooktitlealttwo else ''"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapbooktitlealtthree"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (not(starts-with($bookmapbooktitlealtthree, '$'))) then $bookmapbooktitlealtthree else ''"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapothermetatitle-fluto"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapothermetatitle-fluto, '$')) then 'n/a' else $bookmapothermetatitle-fluto"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapothermetabundle-fluto"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapothermetabundle-fluto, '$')) then 'n/a' else $bookmapothermetabundle-fluto"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"bookmapothermetaaccess-fluto"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapothermetaaccess-fluto, '$')) then 'othermeta access not defined' else if (matches($bookmapothermetaaccess-fluto, 'ie') or matches($bookmapothermetaaccess-fluto, 'teradata-only')) then $bookmapothermetaaccess-fluto else 'othermeta access has incorrect value'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"fluto-component-metadata"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"not(starts-with($bookmapcomponents, '$'))"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"tokenize($bookmapcomponents, '@')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if              (td:valid-component(normalize-space(.)) = false())               then concat('#', normalize-space(.), '@')              else concat(normalize-space(.), '@')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"'n/a@'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"fluto-brand-metadata"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"not(starts-with($bookmapbrands, '$'))"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"tokenize($bookmapbrands, '@')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if                 (td:valid-brand(normalize-space(.)) = false())                  then concat('#', normalize-space(.), '@')                 else concat(normalize-space(.), '@')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"'n/a@'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"fluto-category-metadata"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"not(starts-with($bookmapcategories, '$'))"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"tokenize($bookmapcategories, '@')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if                 (td:valid-category(normalize-space(.)) = false())                  then concat('#', normalize-space(.), '@')                 else concat(normalize-space(.), '@')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"'n/a@'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"fluto-prodname-metadata"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"not(starts-with($bookmapprodnames, '$'))"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"tokenize($bookmapprodnames, '@')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if                 (td:valid-prodname(normalize-space(.)) = false())                  then concat('#', normalize-space(.), '@')                 else concat(normalize-space(.), '@')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"'n/a@'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"fluto-access-metadata"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"td:valid-access($bookmapothermetaaccess-fluto) = false()"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($bookmapothermetaaccess-fluto, '$'))              then 'Check approved values in the Architect Guide for bookmap/bookmeta/othermeta[@name=access][@content]. othermeta[@name=access][@content] does not exist in the bookmap.'              else concat('Check approved values in the Architect Guide for bookmap/bookmeta/othermeta[@name=access][@content]. A value in "', $bookmapothermetaaccess-fluto, '" is not approved.')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"'Approved'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"quality-guidance-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if ($quality-guidance-bool = 'true') then true() else false()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"suppress-warnings-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if ($suppress-warnings-bool = 'true') then true() else false()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"has-svgs-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($has-svgs-bool, '$')) then false() else true()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"pdf-antenna-house-log-parsed-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($pdf-antenna-house-log-parsed-bool, '$')) then false() else true()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"docdata"</span><span class="tAN"> name=</span><span class="tAV">"is-conref-missing-target-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if (starts-with($is-conref-missing-target, '$')) then false() else true()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"mapdata"</span><span class="tAN"> name=</span><span class="tAV">"map-metadata-bool"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"if           (($qa-maps-metadata-table-bool eq true()) and count(doc($qa-maps-metadata-table-uri)//table//tr/tr/child::*[1]) gt 0)           then true()           else false()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tC">&lt;!-- total up violations by severity and type --&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"results"</span><span class="tAN"> name=</span><span class="tAV">"totalViolations"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$totalViolations"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"results"</span><span class="tAN"> name=</span><span class="tAV">"totalErrortoplevel"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$totalErrortoplevel"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"results"</span><span class="tAN"> name=</span><span class="tAV">"totalError"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$totalError"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"results"</span><span class="tAN"> name=</span><span class="tAV">"totalWarning"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$totalWarning"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tC">&lt;!-- count topics of various types --&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"topicsTotal"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/topic ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"topicsStubtopics"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/topic ')]/*[contains(@class,' topic/title ')]/*[not(contains(@class, ' topic/body '))])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"topicsNonStubtopics"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/topic ')]) - count(//*[contains(@class,' topic/topic ')]/*[contains(@class,' topic/title ')]/*[not(contains(@class, ' topic/body '))])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"topicsConcept"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/topic concept/concept ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"topicsTask"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/topic task/task ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tC">&lt;!-- counting any topic with an ol or steps --&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"topicsFakeTask"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[(contains(@class,' topic/body ') and descendant::*[contains(@class, ' topic/ol ')])])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"topicsReference"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/topic reference/reference ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"elementcounts"</span><span class="tAN"> name=</span><span class="tAV">"totalWords"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(tokenize(lower-case(.),'(\s|[,.?!:;])+')[string(.)])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"totalProcedures"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/ol ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"totalShortdesc"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/shortdesc ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"totalAlttext"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/alt ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"totalAlttextnull"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class, ' topic/alt ')][contains(., '""')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"totalSearchtitle"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//*[contains(@class,' topic/searchtitle ')]) + count(//*[contains(@class,' map/searchtitle ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicinfo"</span><span class="tAN"> name=</span><span class="tAV">"imagesTotal"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(//image)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/section&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!-- nested sections not allowed here in DITA; the topic reports are sufficiently distinctive now --&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:apply-templates</span><span class="tAN"> select=</span><span class="tAV">"//*[contains(@class,' topic/body ')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:apply-templates</span><span class="tAN"> select=</span><span class="tAV">"//*[contains(@class,' topic/searchtitle ')]|//*[contains(@class,' topic/shortdesc ')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:apply-templates</span><span class="tAN"> select=</span><span class="tAV">"//*[contains(@class,' topic/alt ')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/body&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/topic&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="T_get-topic-title-idS_qadata.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">get-topic-title-id</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_get-topic-title-idS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_T_get-topic-title-idS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_get-topic-title-idS_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicaltS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">//*[contains(@class,' topic/alt ')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicsearchtitleS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">//*[contains(@class,' topic/searchtitle ')]</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_containsclasstopicshortdescS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">//*[contains(@class,' topic/shortdesc ')]</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_T_get-topic-title-idS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_T_get-topic-title-idS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_T_get-topic-title-idS_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_replacetmregS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>replacetmreg (</span><span class="fParams">input</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_get-topic-title-idS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_T_get-topic-title-idS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_get-topic-title-idS_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"get-topic-title-id"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"topicTitle01"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg(preceding::*[contains(@class, ' topic/title ')][1])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"topicTitle"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg($topicTitle01)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"ixiasoftID"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"contains(ancestor::*[contains(@class, ' topic/topic ')][1]/@id, 'unique')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"contains(ancestor::*[contains(@class, ' topic/topic ')][1]/@id, ' ')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"substring-after(ancestor-or-self::*[contains(@class, ' topic/topic ')][1]/@id, ' ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"ancestor::*[contains(@class, ' topic/topic ')][1]/@id"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"topicTitle"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$topicTitle"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="M_containsclasstopicaltS_qadata.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateMatch">//*[contains(@class,' topic/alt ')]</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>//*[contains(@class,' topic/alt ')]</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Mode</td>
+                        <td>#default</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_M_containsclasstopicaltS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_M_containsclasstopicaltS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_M_containsclasstopicaltS_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#T_get-topic-title-idS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="nRf">get-topic-title-id</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Variable</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-characters-alttextS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-characters-alttext</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_M_containsclasstopicaltS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_M_containsclasstopicaltS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_M_containsclasstopicaltS_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"//*[contains(@class,' topic/alt ')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;section</span><span class="tAN"> id=</span><span class="tAV">"report{generate-id()}"</span><span class="tAN"> outputclass=</span><span class="tAV">"seoReport-alt"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"get-topic-title-id"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"seo-alt"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"string-length(normalize-space(.)) &gt; $max-characters-alttext"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-alttextLength-exceeded-bool"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"contains(normalize-space(.), 'picture of')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-alttext-picture-of"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo-alttext-flags"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tT">Do not use the phrase "picture of" in alt text.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"contains(normalize-space(.), 'image of')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-alttext-image-of"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo-alttext-flags"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tT">Do not use the phrase "image of" in alt text.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"contains(normalize-space(.), 'graphic')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-alttext-graphic"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo-alttext-flags"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tT">Do not use the word "graphic" in alt text.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"contains(normalize-space(.), 'displays')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-_SEO-alttext-displays"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo-alttext-flags"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tT">Do not use the word "displays" in alt text.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"contains(normalize-space(.), 'this\sdiagram\s')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-_SEO-alttext-this-diagram"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo-alttext-flags"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tT">Do not use the phrase "this diagram" in alt text.</span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"contains(normalize-space(.), '""')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD-_SEO-alttext-null-value"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo-alttext-metric"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/section&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="M_containsclasstopicsearchtitleS_qadata.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateMatch">//*[contains(@class,' topic/searchtitle ')]</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>//*[contains(@class,' topic/searchtitle ')]</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Mode</td>
+                        <td>#default</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_M_containsclasstopicsearchtitleS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_M_containsclasstopicsearchtitleS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_M_containsclasstopicsearchtitleS_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#T_get-topic-title-idS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="nRf">get-topic-title-id</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Variables</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-characters-searchtitleS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-characters-searchtitle</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-pipes-in-searchtitleS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-pipes-in-searchtitle</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_M_containsclasstopicsearchtitleS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_M_containsclasstopicsearchtitleS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_M_containsclasstopicsearchtitleS_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"//*[contains(@class,' topic/searchtitle ')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;section</span><span class="tAN"> id=</span><span class="tAV">"report{generate-id()}"</span><span class="tAN"> outputclass=</span><span class="tAV">"seoReport-searchtitle"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"get-topic-title-id"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"string-length(normalize-space(.)) &gt; $max-characters-searchtitle"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-searchtitleLength-exceeded-bool"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!--					&lt;xsl:if test=".[not(matches(node(), '\s\|\s'))]"&gt;
+					&lt;data id="TD_SEO-searchtitle-no-pipe" type="msg" outputclass="seo"
+						importance="warning-seo"&gt;&lt;xsl:value-of select="."/&gt;&lt;/data&gt;
+				&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!--					&lt;xsl:if test=".[matches(normalize-space(.), '\sand\s') 
+					or matches(normalize-space(.), '\sor\s')]"&gt;
+					&lt;data id="TD_SEO-searchtitle-no-and-or" type="msg" outputclass="seo"
+						importance="warning-seo"&gt;&lt;xsl:value-of select="."/&gt;&lt;/data&gt;
+				&lt;/xsl:if&gt;--&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">".[matches(normalize-space(.), '\s/\s')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-searchtitle-no-spaces-around-slash"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"string-length(normalize-space(.)) - string-length(translate(normalize-space(.), '|', '')) &gt; $max-pipes-in-searchtitle"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-searchtitle-too-many-pipes"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/section&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="M_containsclasstopicshortdescS_qadata.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateMatch">//*[contains(@class,' topic/shortdesc ')]</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>//*[contains(@class,' topic/shortdesc ')]</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Mode</td>
+                        <td>#default</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_M_containsclasstopicshortdescS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_M_containsclasstopicshortdescS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_M_containsclasstopicshortdescS_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#T_get-topic-title-idS_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="nRf">get-topic-title-id</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Variable</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_max-characters-shortdescS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">max-characters-shortdesc</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_M_containsclasstopicshortdescS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_M_containsclasstopicshortdescS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_M_containsclasstopicshortdescS_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"//*[contains(@class,' topic/shortdesc ')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;section</span><span class="tAN"> id=</span><span class="tAV">"report{generate-id()}"</span><span class="tAN"> outputclass=</span><span class="tAV">"seoReport-shortdesc"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"get-topic-title-id"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"seo-shortdesc"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"string-length(normalize-space(.)) &gt; $max-characters-shortdesc"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-shortdescLength-exceeded-bool"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"(contains(preceding-sibling::*[contains(@class,' topic/title ')][1][normalize-space(.)], 'Supported Releases')       or contains(preceding-sibling::*[contains(@class,' topic/title ')][1][normalize-space(.)], 'Dependencies'))      and (//*[contains(@class,' topic/shortdesc ')]/text()[normalize-space()][not(contains(., 'compatibility'))])"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> id=</span><span class="tAV">"TD_SEO-shortdesc-supported-releases-without-compatibility"</span><span class="tAN"> type=</span><span class="tAV">"msg"</span><span class="tAN"> outputclass=</span><span class="tAV">"seo"</span><span class="tAN"> importance=</span><span class="tAV">"warning-seo"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"."</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/section&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateMatch">*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Mode</td>
+                        <td>#default</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#F_replacetmregS_qavariables.xsl" target="_self" title="com.teradata.dita-community.qa" onclick="updPT('qavariables.xsl')"><span>replacetmreg (</span><span class="fParams">input</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_langS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">lang</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_passiveVoiceS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">passiveVoice</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_tagS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">tag</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_termS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">term</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_top-levelS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">top-level</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation1.html#T_xrefsS_qachecks_qa_checks.xsl" target="_self" title="No namespace" onclick="updPT('qachecks/_qa_checks.xsl')"><span class="nRf">xrefs</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Variable</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation22.html#V_suppress-warnings-boolS_qavariables.xsl" target="_self" title="No namespace" onclick="updPT('qavariables.xsl')">suppress-warnings-bool</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_M_containsclasstopicbodyprocessing-instructionnotnameS_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"*[contains(@class,' topic/body ')] | processing-instruction()[not(name() = '')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"self::conbody | self::taskbody | self::refbody |  self::processing-instruction()[not(name() = '')]"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"not(ends-with(@xtrf, 'phq1510888831580.dita') or ends-with(@xtrf, 'tnv1513710189550.dita') or ends-with(@xtrf, 'rea1537475144342.dita'))"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;section</span><span class="tAN"> id=</span><span class="tAV">"report{generate-id()}"</span><span class="tAN"> outputclass=</span><span class="tAV">"topicReport"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"topicTitle01"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg(preceding-sibling::title[contains(@class, ' topic/title ')])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"topicTitle"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"td:replacetmreg($topicTitle01)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">Topic: </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xref</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:attribute</span><span class="tAN"> name=</span><span class="tAV">"href"</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"replace(replace(substring-after(@xtrf, 'C:'), '\\', '/'), ' ', '%20')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tC">&lt;!--						&lt;xsl:value-of select="encode-for-uri(concat('file:///', replace(@xtrf, '\\', '/')))"/&gt;--&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:attribute&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"preceding-sibling::title[contains(@class, ' topic/title ')]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xref&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"ixiasoftID"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"contains(ancestor::*[contains(@class, ' topic/topic ')][1]/@id, 'unique')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"contains(ancestor::*[contains(@class, ' topic/topic ')][1]/@id, ' ')"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"substring-after(ancestor-or-self::*[contains(@class, ' topic/topic ')][1]/@id, ' ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"ancestor::*[contains(@class, ' topic/topic ')][1]/@id"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"topicTitle"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$topicTitle"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"filePath"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"substring-after(@xtrf, 'authoring/')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"top-level"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"top-level"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$suppress-warnings-bool = 'false'"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"wordCount"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(tokenize(lower-case(ancestor::*[contains(@class, ' topic/topic ')][1]),'(\s|[,.?!:;])+')[string(.)])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"term"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"term"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"lang"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"lang"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"tag"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"tag"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"wordFrequency"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"junkwords"</span><span class="tAN"> select=</span><span class="tAV">"(       'a lot',       'a bit',       'a number of ',       'actually',       'almost',       'approximately',       'basically',       'could',       'eventually',       'fairly',       'few',       'huge',       'infinitely',       'kind of',       'largely',       'many',       'maybe',       'might',       'mostly',       'nearly',       'perhaps',       'practically',       'probably',       'quite',       'really',       'several',       'shall',       'should',       'slightly',       'some',       'sometimes',       'somewhat',       'sort of',       'tiny',       'usually',       'various',       'vast',       'very',       'would'       )"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:for-each-group</span><span class="tAN"> group-by=</span><span class="tAV">"."</span><span class="tAN"> select=</span><span class="tAV">"for $w in tokenize(lower-case(ancestor::*[contains(@class, ' topic/topic ')][1]),'(\s|[,.?!:;])+')[string(.)=$junkwords] return $w"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"count(current-group())&gt;0"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;data</span><span class="tAN"> name=</span><span class="tAV">"word"</span><span class="tAN"> value=</span><span class="tAV">"{current-grouping-key()}"</span><span class="tEl">&gt;</span><span class="tI">
+                  </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"count(current-group())"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:for-each-group&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"xrefs"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"xrefs"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;data</span><span class="tAN"> type=</span><span class="tAV">"topicreport"</span><span class="tAN"> name=</span><span class="tAV">"passiveVoice"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"passiveVoice"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/data&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/section&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="O_S_qadata.xsl"></a><div class="cmpT">Output
+         <span class="qname">(default)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_O_S_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('dS_O_S_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_O_S_qadata.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3><pre> This file is part of the org.dita-community.qa project hosted on Sourceforge.net.</pre><pre> (c) Copyright Ditanauts All Rights Reserved. </pre><pre> for 1.x OT versions, use doctype-system="../dtd/technicalContent/dtd/topic.dtd" </pre></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Output properties</div>
+                           <div class="flR"><input id="bt_o_" type="image" src="img/btM.gif" value="-" onclick="switchState('o_');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="o_" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>method</th>
+                                       <th>encoding</th>
+                                       <th>indent</th>
+                                       <th>doctype-public</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>yes</td>
+                                    <td>-//OASIS//DTD DITA Topic//EN</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_O_S_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_O_S_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_O_S_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:output</span><span class="tAN"> encoding=</span><span class="tAV">"UTF-8"</span><span class="tAN"> method=</span><span class="tAV">"xml"</span><span class="tAN"> doctype-public=</span><span class="tAV">"-//OASIS//DTD DITA Topic//EN"</span><span class="tAN"> indent=</span><span class="tAV">"yes"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="K_tagErrorsWarningsS_qadata.xsl"></a><div class="cmpT">Key
+         <span class="qname">tagErrorsWarnings</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_K_tagErrorsWarningsS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('dS_K_tagErrorsWarningsS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_K_tagErrorsWarningsS_qadata.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3><pre>doctype-system="../plugins/org.oasis-open.dita.v1_2/dtd/technicalContent/dtd/topic.dtd"</pre></div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>data</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Use</td>
+                        <td>@importance</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_K_tagErrorsWarningsS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_K_tagErrorsWarningsS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_K_tagErrorsWarningsS_qadata.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="qacreate-oxygen-documentation4.html#M_S_qadata.xsl" target="_self" title="No namespace" onclick="updPT('qadata.xsl')"><span class="mRf">/</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_K_tagErrorsWarningsS_qadata.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_K_tagErrorsWarningsS_qadata.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_K_tagErrorsWarningsS_qadata.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:key</span><span class="tAN"> name=</span><span class="tAV">"tagErrorsWarnings"</span><span class="tAN"> match=</span><span class="tAV">"data"</span><span class="tAN"> use=</span><span class="tAV">"@importance"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">Stylesheet documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Developer.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                    // The namespace is the selected option in the TOC combo.
+                    
+                    // The corresponding div is already visible conf. to its style attr.                     
+                    
+                            var selectToc = getElementObject('selectTOC');
+                            if(selectToc != null){
+                            // It can be null when having chunking, the combo of the TOC is in another frame.
+                            selectToc.selectedIndex = 0;
+                            }
+                        
+                    
+                    // Floats the toolbar.
+                    var globalControls = getElementObject("global_controls"); 
+                    
+                    if(globalControls != null){
+                    var browser=navigator.appName;
+                    var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+                    
+                    var IE6 = false;
+                    if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+                    IE6 = true;
+                    }
+                    
+                    //alert (IE6 + " |V| " + version);
+                    
+                    if(IE6){
+                    // On IE 6 the 'fixed' property is not supported. We must use javascript. 
+                    globalControls.style.position='absolute';                         
+                    // The global controls will do not exist in the TOC frame, when chunking.
+                    findAndFloat("global_controls", 225, 30);    
+                    } else {
+                    globalControls.style.position='fixed';                     	
+                    }
+                    
+                    globalControls.style.right='0';                       
+                    }
+                //--></script></body>
+</html>
